@@ -10,20 +10,12 @@ const moviesArray = [
 ];
 
 function App() {
-  const [movies] = useState(moviesArray);
+  const [movies, setMovies] = useState(moviesArray);
   const [filteredMovies, setFilteredMovies] = useState(moviesArray);
   const [selectedGenre, setSelectedGenre] = useState("");
   const [searchTerm, setSearchTerm] = useState("");
+  const [newTitle, setNewTitle] = useState("");
 
-  useEffect(() => {
-    if (selectedGenre === "") {
-      setFilteredMovies(movies);
-    } else {
-      setFilteredMovies(
-        movies.filter((movie) => movie.genre === selectedGenre)
-      );
-    }
-  }, [selectedGenre, movies]);
   useEffect(() => {
     let result = movies;
 
@@ -40,9 +32,32 @@ function App() {
     setFilteredMovies(result);
   }, [selectedGenre, searchTerm, movies]);
 
+  const handleAddMovie = (e) => {
+    e.preventDefault();
+    if (!newTitle.trim()) return;
+    const newMovie = { title: newTitle, genre: "Fantascienza" };
+    setMovies([...movies, newMovie]);
+    setNewTitle("");
+  };
+
   return (
     <div className="container py-4">
       <h1 className="mb-3">Movie List</h1>
+
+
+      <form onSubmit={handleAddMovie} className="mb-3 d-flex gap-2">
+        <input
+          type="text"
+          placeholder="New movie title"
+          className="form-control"
+          value={newTitle}
+          onChange={(e) => setNewTitle(e.target.value)}
+        />
+        <button type="submit" className="btn btn-primary">
+          Add
+        </button>
+      </form>
+
 
       <select
         className="form-select mb-3"
@@ -55,9 +70,12 @@ function App() {
         <option value="Romantico">Romantico</option>
         <option value="Azione">Azione</option>
       </select>
+
+
       <input
         type="text"
         placeholder="Search by title..."
+        className="form-control mb-3"
         value={searchTerm}
         onChange={(e) => setSearchTerm(e.target.value)}
       />
@@ -75,5 +93,3 @@ function App() {
 }
 
 export default App;
-
-
