@@ -13,6 +13,7 @@ function App() {
   const [movies] = useState(moviesArray);
   const [filteredMovies, setFilteredMovies] = useState(moviesArray);
   const [selectedGenre, setSelectedGenre] = useState("");
+  const [searchTerm, setSearchTerm] = useState("");
 
   useEffect(() => {
     if (selectedGenre === "") {
@@ -23,6 +24,21 @@ function App() {
       );
     }
   }, [selectedGenre, movies]);
+  useEffect(() => {
+    let result = movies;
+
+    if (selectedGenre !== "") {
+      result = result.filter((movie) => movie.genre === selectedGenre);
+    }
+
+    if (searchTerm !== "") {
+      result = result.filter((movie) =>
+        movie.title.toLowerCase().includes(searchTerm.toLowerCase())
+      );
+    }
+
+    setFilteredMovies(result);
+  }, [selectedGenre, searchTerm, movies]);
 
   return (
     <div className="container py-4">
@@ -39,6 +55,13 @@ function App() {
         <option value="Romantico">Romantico</option>
         <option value="Azione">Azione</option>
       </select>
+      <input
+        type="text"
+        placeholder="Search by title..."
+        value={searchTerm}
+        onChange={(e) => setSearchTerm(e.target.value)}
+      />
+
 
       <ul className="list-group">
         {filteredMovies.map((movie, index) => (
