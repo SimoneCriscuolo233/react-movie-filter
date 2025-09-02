@@ -15,6 +15,7 @@ function App() {
   const [selectedGenre, setSelectedGenre] = useState("");
   const [searchTerm, setSearchTerm] = useState("");
   const [newTitle, setNewTitle] = useState("");
+  const [newGenre, setNewGenre] = useState("")
 
   useEffect(() => {
     let result = movies;
@@ -35,9 +36,10 @@ function App() {
   const handleAddMovie = (e) => {
     e.preventDefault();
     if (!newTitle.trim()) return;
-    const newMovie = { title: newTitle, genre: "Fantascienza" };
+    const newMovie = { title: newTitle, genre: newGenre };
     setMovies([...movies, newMovie]);
     setNewTitle("");
+    setNewGenre("")
   };
 
   return (
@@ -52,6 +54,13 @@ function App() {
           className="form-control"
           value={newTitle}
           onChange={(e) => setNewTitle(e.target.value)}
+        />
+        <input
+          type="text"
+          placeholder="New movie genre"
+          className="form-control"
+          value={newGenre}
+          onChange={(e) => setNewGenre(e.target.value)}
         />
         <button type="submit" className="btn btn-primary">
           Add
