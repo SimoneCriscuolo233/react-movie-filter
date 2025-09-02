@@ -35,9 +35,11 @@ function App() {
 
   const handleAddMovie = (e) => {
     e.preventDefault();
-    if (!newTitle.trim()) return;
-    const newMovie = { title: newTitle, genre: newGenre };
-    setMovies([...movies, newMovie]);
+    if (newTitle !== "" && newGenre !== "") {
+      const newMovie = { title: newTitle, genre: newGenre };
+      setMovies([...movies, newMovie]);
+
+    }
     setNewTitle("");
     setNewGenre("")
   };
